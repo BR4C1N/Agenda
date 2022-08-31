@@ -22,7 +22,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
-    public void inserir(Contato){
+    public void inserir(Contato contato){
 
     }
 }
