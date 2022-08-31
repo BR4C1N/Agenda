@@ -1,4 +1,4 @@
-package com.software.agenda;
+package com.software.entidades;
 
 public class Contato {
     String nome;
