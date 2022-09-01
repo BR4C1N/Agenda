@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.software.bancoDados.ContatoDB;
 import com.software.bancoDados.DBHelper;
 import com.software.entidades.Contato;
 
@@ -25,15 +26,14 @@ public class MainActivity extends AppCompatActivity {
     List<Contato> dadosContatos;
     ListView listagemContatos;
 
-    SQLiteDatabase conexaoBanco;
+    DBHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DBHelper dbHelper = new DBHelper(MainActivity.this);
-        conexaoBanco = dbHelper.getWritableDatabase();
+        dbHelper = new DBHelper(MainActivity.this);
 
         campoNome = findViewById(R.id.campoNome);
         campoTelefone = findViewById(R.id.campoTelefone);
@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
                 contato.setTelefone(campoTelefone.getText().toString());
 
                 dadosContatos.add(contato);
+
+                ContatoDB.inserirContato(contato, dbHelper);
 
                 Toast.makeText(MainActivity.this, "Salvo com Sucesso!", Toast.LENGTH_SHORT).show();
             }

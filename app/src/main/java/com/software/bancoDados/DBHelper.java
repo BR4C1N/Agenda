@@ -9,12 +9,18 @@ import com.software.entidades.Contato;
 
 public class DBHelper extends SQLiteOpenHelper {
     public DBHelper(@Nullable Context context) {
-        super(context, "bancoDados", null, 1);
+        super(context, "BancoAgenda", null, 1);
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        String querySQL =
+                "create table agenda(" +
+                        "id integer primary key autoincrement," +
+                        "nome varchar(150)," +
+                        "telefone varchar(15))";
 
+        sqLiteDatabase.execSQL(querySQL);
     }
 
     @Override
@@ -22,7 +28,4 @@ public class DBHelper extends SQLiteOpenHelper {
 
     }
 
-    public void inserir(Contato contato){
-
-    }
 }
