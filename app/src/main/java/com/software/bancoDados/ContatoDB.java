@@ -1,6 +1,7 @@
 package com.software.bancoDados;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.software.entidades.Contato;
@@ -10,9 +11,14 @@ import java.util.List;
 
 public class ContatoDB {
 
-    private static SQLiteDatabase conexao;
+    private DBHelper db;
+    private SQLiteDatabase conexao;
 
-    public static void inserirContato(Contato contato, DBHelper db){
+    public ContatoDB(DBHelper db){
+        this.db = db;
+    }
+
+    public void inserirContato(Contato contato){
         conexao = db.getWritableDatabase();
 
         ContentValues valores = new ContentValues();
@@ -23,11 +29,34 @@ public class ContatoDB {
         conexao.close();
     }
 
-    public static List<Contato> listarContatos(DBHelper db){
-        List<Contato> listaContatos = new ArrayList<>();
+    public void atualizar(){
+
+    }
+
+    public void remover(int id){
+        conexao = db.getWritableDatabase();
+
+        conexao.delete("Agenda", "id=?", new String[]{id+""});
+    }
+
+    public void listar(List listaDados){
+        listaDados.clear();
         conexao = db.getReadableDatabase();
 
-        return null;
+        String colunas[]={"id", "nome", "telefone"};
+        Cursor query = conexao.query("Agenda", colunas, null, null, null, null, "nome");
+
+        while(query.moveToNext()){
+            Contato contato = new Contato();
+
+            contato.setId(Integer.parseInt(query.getString(0)));
+            contato.setNome(query.getString(1));
+            contato.setTelefone(query.getString(2));
+
+            listaDados.add(contato);
+        }
+
+        conexao.close();
     }
 
 }
