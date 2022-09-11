@@ -14,11 +14,11 @@ public class ContatoDB {
     private DBHelper db;
     private SQLiteDatabase conexao;
 
-    public ContatoDB(DBHelper db){
+    public ContatoDB(DBHelper db) {
         this.db = db;
     }
 
-    public void inserirContato(Contato contato){
+    public void inserirContato(Contato contato) {
         conexao = db.getWritableDatabase();
 
         ContentValues valores = new ContentValues();
@@ -26,27 +26,38 @@ public class ContatoDB {
         valores.put("telefone", contato.getTelefone());
 
         conexao.insertOrThrow("Agenda", null, valores);
+
         conexao.close();
     }
 
-    public void atualizar(){
-
-    }
-
-    public void remover(int id){
+    public void editarContato(Contato contato) {
         conexao = db.getWritableDatabase();
 
-        conexao.delete("Agenda", "id=?", new String[]{id+""});
+        ContentValues valores = new ContentValues();
+        valores.put("nome", contato.getNome());
+        valores.put("telefone", contato.getTelefone());
+
+        conexao.update("Agenda", valores, "id=?", new String[]{contato.getId().toString()});
+
+        conexao.close();
     }
 
-    public void listar(List listaDados){
+    public void remover(int id) {
+        conexao = db.getWritableDatabase();
+
+        conexao.delete("Agenda", "id=?", new String[]{id + ""});
+
+        conexao.close();
+    }
+
+    public void listar(List listaDados) {
         listaDados.clear();
         conexao = db.getReadableDatabase();
 
-        String colunas[]={"id", "nome", "telefone"};
+        String colunas[] = {"id", "nome", "telefone"};
         Cursor query = conexao.query("Agenda", colunas, null, null, null, null, "nome");
 
-        while(query.moveToNext()){
+        while (query.moveToNext()) {
             Contato contato = new Contato();
 
             contato.setId(Integer.parseInt(query.getString(0)));
