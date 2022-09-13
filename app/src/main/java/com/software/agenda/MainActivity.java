@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         botaoCancelar = findViewById(R.id.botaoCancelar);
         listagemContatos = findViewById(R.id.listagemContatos);
 
-        botaoCancelar.setBackgroundResource(R.color.ativo);
+        botaoCancelar.setBackgroundResource(R.color.desativado);
 
         dadosContatos = new ArrayList<>();
         adapter = new ArrayAdapter(this, android.support.constraint.R.layout.support_simple_spinner_dropdown_item, dadosContatos);
@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void acaoComponente() {
+        //Acionar o botão cancelar quando começar a escrever no campo nome.
         campoNome.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -85,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Acionar o botão cancelar quando começar a escrever no campo telefone.
         campoTelefone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -152,9 +154,9 @@ public class MainActivity extends AppCompatActivity {
                     campoNome.setText("");
                     campoTelefone.setText("");
 
-                    botaoCancelar.setBackgroundResource(R.color.desativado);
-                    verificarBotaoCancelar = false;
                     verificarEditarContato = false;
+                    verificarBotaoCancelar = false;
+                    botaoCancelar.setBackgroundResource(R.color.desativado);
                 }
             }
         });
@@ -183,12 +185,12 @@ public class MainActivity extends AppCompatActivity {
                     adapter.notifyDataSetChanged();
 
                     //Resetar os campos.
-                    botaoCancelar.setBackgroundResource(R.color.desativado);
-                    verificarBotaoCancelar = false;
-                    verificarEditarContato = false;
-                    contato = new Contato();
+                    contato = null;
                     campoNome.setText("");
                     campoTelefone.setText("");
+                    verificarEditarContato = false;
+                    verificarBotaoCancelar = false;
+                    botaoCancelar.setBackgroundResource(R.color.desativado);
 
                     Toast.makeText(MainActivity.this, "Salvo com Sucesso!", Toast.LENGTH_SHORT).show();
                 }
